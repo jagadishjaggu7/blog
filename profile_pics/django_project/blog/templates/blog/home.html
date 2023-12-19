@@ -1,0 +1,61 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+  {% if user.is_authenticated %}
+    {% for post in posts %}
+      <article class="media content-section" style="background-color: #aaa3a3; border: 1px solid #bd1818; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}" alt="{{ post.author.username }}">
+        <div class="media-body" style="padding: 20px;">
+          <div class="article-metadata mb-3">
+            <a class="mr-2 font-weight-bold" href="{% url 'user-posts' post.author.username %}" style="color: #333; transition: color 0.3s;" onmouseover="this.style.color='#428bca'" onmouseout="this.style.color='#333'">{{ post.author }}</a>
+            <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+          </div>
+          <h2 class="mb-3"><a class="article-title" href="{% url 'post-detail' pk=post.pk %}" style="color: #428bca; text-decoration: none;">{{ post.title }}</a></h2>
+          <p class="article-content mb-4">{{ post.content }}</p>
+        </div>
+      </article>
+    {% endfor %}
+
+    {% if is_paginated %}
+      <!-- Footer -->
+      <footer style="text-align: center; background-color: #e6e6e6; padding: 10px; border-top: 1px solid #ddd; margin-top: 10px;">
+        <!-- Pagination buttons -->
+        <div class="pagination">
+          {% if page_obj.has_previous %}
+            <a href="?page=1" class="btn btn-outline-info mb-4 {% if page_obj.number == 1 %}active{% endif %}">first</a>
+            <a href="?page={{page_obj.previous_page_number}}" class="btn btn-outline-info mb-4 {% if page_obj.number != 1 %}active{% endif %}">previous</a>
+          {% endif %}
+          
+          {% for num in page_obj.paginator.page_range %}
+            <a href="?page={{num}}" class="btn btn-outline-info mb-4 {% if page_obj.number == num %}active{% endif %}">{{ num }}</a>
+          {% endfor %}
+          
+          {% if page_obj.has_next %}
+            <a href="?page={{page_obj.next_page_number}}" class="btn btn-outline-light mb-4">next</a>
+            <a href="?page={{page_obj.paginator.num_pages}}" class="btn btn-outline-light mb-4">last</a>
+          {% endif %}
+        </div>
+      </footer>
+    {% endif %}
+  {% else %}
+    <!-- Message for non-authenticated users -->
+    <style>
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .animated-text {
+        animation: fadeIn 1.5s ease-in-out;
+      }
+      
+    </style>
+    <body>
+      <h1 class="animated-text">😐 Please login to see content</h1>
+    </body>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "blog/base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" class="p-4" style="background-color: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            <legend class="text-center mb-4" style="color: #3498db; font-size: 24px; font-weight: bold;">Delete Post</legend>
+                        </fieldset>
+                        <h2 class="mb-4" style="color: #333; font-size: 18px;">Confirm that you want to delete the post "{{ object.title }}"</h2>
+
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-danger" type="submit" style="width: 45%;">Yes, Delete</button>
+                            <a class="btn btn-secondary" href="{% url 'post-detail' object.id %}" style="width: 45%;">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{%extends "blog/base.html" %}
+{%block content%}
+{% if user.is_authenticated %}
+<body>
+    <h1> about blog</h1>
+    {% if context %}
+        <p>{{context}}</p>
+    {% else %}
+        <P>no context</P>
+    {%endif%}        
+    
+    <h2>the end</h2>
+    
+</body>
+{% else %}
+<h1>please login to see content</h1>
+{% endif %}
+{%endblock%}

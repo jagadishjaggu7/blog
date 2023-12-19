@@ -1,0 +1,11 @@
+{% extends "blog/base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+                <h2> U have been logged out</h2>
+
+                <div class="card-footer text-muted text-center">
+                    <small> <a href="{% url 'login' %}">click here to login agian</a></small>
+                </div>
+           
+{% endblock %}
